@@ -1,39 +1,37 @@
 <?php
+
+/*************************************************************************************************
+ * this php file is to get keywords-language-location-related tweets using the Twitter Search API
+ * ***********************************************************************************************/
+
 header('Content-type: application/xml');
-//, lancode, latitude, longitude, keywordsForTweets
+
+//get four variables: q (= keyword), lancode (=language code: ISO 639-1 alpha-2), latitude, longitude
 $theKeyword=urldecode($_REQUEST['q']);
 $lancode=urldecode($_REQUEST['lancode']);
 $latitude=urldecode($_REQUEST['latitude']);
 $longitude=urldecode($_REQUEST['longitude']);
+
+//specify the location range for the tweets using latitude and longitude: within 10000 miles if both latitude and longitude are not empty
 $locationSt="";
 if(!empty($latitude) && !empty($longitude)){ $locationSt=$latitude.",".$longitude.",10000mi";}
 
 $st='<?xml version="1.0" encoding="utf-8"?><rss version="2.0"><channel><title>'.htmlspecialchars($theKeyword, ENT_XML1).'</title>';
-////*****
-//$st1 =  "<span style='color:#0084B4;'>" . $result->user->screen_name . ":&nbsp;</span><span> " . $result->text . "</span><br />";
-//$st1 .=  "<span style='color:#0084B4;'>time: " . $result->created_at . ":&nbsp;</span><span class='author_name'>by " . $result->user->name . "</span><br />";
 
-//$st1 .=  "<br />";//time-ago
+if($theKeyword==""){$st .= '<item></item></channel></rss>'; echo $st; return;}  //return empty content if the keyword is empty
 
-//$st .= '<item>';
-//$st .=  '<link>'.htmlspecialchars('Jane', ENT_XML1).'</link>';
-//$st .=  '<pubDate>'.htmlspecialchars('Jane Kong', ENT_XML1).'</pubDate>';
-//$st .=  '<description>'.htmlspecialchars($st1, ENT_XML1).'</description>';
-//$st .= '</item>';
-
-//$st .= '</channel></rss>'; echo $st; return;
-
-//*******
-if($theKeyword==""){$st .= '<item></item></channel></rss>'; echo $st; return;}  //wp_die();
 require_once 'Lib/twitteroauth-master/twitteroauth/twitteroauth.php';
 
 
-
-//"lang" => $lancode,
-//"geocode" => $latitude.",".$longitude.",10000mi",
 function search(array $query)
 {
-    $toa = new TwitterOAuth('1Vswx5l5bGS4jFyQVgi2BLRil', 'C3WMV0xyISP8tAPnHNu7lQFGlG37h4WJDtqZQbgl6alA6lgcGw', '384927756-m32fvWs3GIKNIZT8xzD6lK59k9rKfKAUN8VOkVuV', 'APdzLpm4aaSb58Q0aTfcs14z7922KY2Otr3Bejk1wFcBG');
+    //construct TwitterOAuth object. The following keys are fake keys for the sample purpose, you may get them from 
+    $consumer_key="1Vswx5l5bGS4jFyQVgi2BLRil";
+    $consumer_secret="C3WMV0xyISP8tAPnHNu7lQFGlG37h4WJDtqZQbgl6alA6lgcGw";
+    $oauth_token="384927756-m32fvWs3GIKNIZT8xzD6lK59k9rKfKAUN8VOkVuV";
+    $oauth_token_secret="APdzLpm4aaSb58Q0aTfcs14z7922KY2Otr3Bejk1wFcBG";
+
+    $toa = new TwitterOAuth($consumer_key, $consumer_secret, $oauth_token, $oauth_token_secret);
     return $toa->get('search/tweets', $query);
 }
 
