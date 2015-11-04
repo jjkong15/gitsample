@@ -53,7 +53,7 @@ $query = array(
 );
 $results = search($query);
 
-//if not many tweets (less than 3) return, look for global tweets (not specify geocode) 
+//if not many tweets (less than 3) in the results, look for global tweets (not specify geocode) 
 if(count($results->statuses)<=3) { //if you only get less than 3 tweets, then 
     $query = array(
         "q" => $theKeyword,
@@ -63,7 +63,7 @@ if(count($results->statuses)<=3) { //if you only get less than 3 tweets, then
     );
     $results = search($query);
 }
-//if still no tweets return, try to get the tweets without language restriction
+//if still no tweets in the results, try to get the tweets without language restriction
 if(count($results->statuses)==0) {
     $query = array(
         "q" => $theKeyword,
@@ -73,13 +73,13 @@ if(count($results->statuses)==0) {
     $results = search($query);
 }
 
-//if still no tweets return, return empty content
+//if still no tweets in the results, return empty content
 if(count($results->statuses)==0) {
     echo '<?xml version="1.0" encoding="utf-8"?><rss version="2.0"><channel><item></item></channel></rss>'; 
     return;
 }  
 
-//return all tweets
+//display all tweets
 foreach ($results->statuses as $result) {
     $userName=$result->user->screen_name;
     $idSt=$result->id;
