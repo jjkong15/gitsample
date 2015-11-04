@@ -25,11 +25,11 @@ require_once 'Lib/twitteroauth-master/twitteroauth/twitteroauth.php';
 
 function search(array $query)
 {
-    //construct TwitterOAuth object. The following keys are fake keys for the sample purpose, you may get them from 
-    $consumer_key="1Vswx5l5bGS4jFyQVgi2BLRil";
-    $consumer_secret="C3WMV0xyISP8tAPnHNu7lQFGlG37h4WJDtqZQbgl6alA6lgcGw";
-    $oauth_token="384927756-m32fvWs3GIKNIZT8xzD6lK59k9rKfKAUN8VOkVuV";
-    $oauth_token_secret="APdzLpm4aaSb58Q0aTfcs14z7922KY2Otr3Bejk1wFcBG";
+    //construct TwitterOAuth object. The following keys are fake keys for the sample purpose, you may get them by registering an application at https://dev.twitter.com/apps
+    $consumer_key="1VswxxxxxxxxxxxxxxxxxxxxRil";
+    $consumer_secret="C3WMV0xyISP8xxxxxxxxxxxxxxxxxlgcGw";
+    $oauth_token="384927756-m32xxxxxxxxxxxxxxxxxxxxxxxxVuV";
+    $oauth_token_secret="APdxxxxxxxxxxxxxxxxxxxxxxxxxxxwFcBG";
 
     $toa = new TwitterOAuth($consumer_key, $consumer_secret, $oauth_token, $oauth_token_secret);
     return $toa->get('search/tweets', $query);
